@@ -215,11 +215,7 @@ export function ChatScreen() {
             const messageHolder = []
             data.forEach(filename => {
                 messageHolder.push(
-                    FileSystem.readAsStringAsync(folderUri + filename).then(content => {
-
-
-                        return JSON.parse(content)
-                    })
+                    FileSystem.readAsStringAsync(folderUri + filename).then(content => JSON.parse(content))
                 )
             })
 
@@ -729,8 +725,6 @@ export function ChatScreen() {
                     const fileUri = folderUri + name + "---" + msg.createdTime
 
                     FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...msg, isLocal: true }))
-
-
 
                     canMoveDown.current = true
                     setMessages(preMessages => {
@@ -1548,7 +1542,8 @@ async function pickImage(setMessages, userName, name, socket, url, canMoveDown, 
         }
         const folderUri = FileSystem.documentDirectory + "MessageFolder/" + name + "/"
         const fileUri = folderUri + name + "---" + imageMsg.createdTime
-        // FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
+        FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
+
         // canMoveDown.current = true
         // setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
         // setLatestMsgObj(pre => {
@@ -1577,9 +1572,7 @@ async function pickImage(setMessages, userName, name, socket, url, canMoveDown, 
             .then(response => {
 
                 canMoveDown.current = true
-                //console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
-
-                FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` }))
+                console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
                 setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, }] })
                 setLatestMsgObj(pre => {
                     return { ...pre, [name]: { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, } }
@@ -1633,7 +1626,8 @@ async function takePhoto(setMessages, userName, name, socket, url, canMoveDown, 
         }
         const folderUri = FileSystem.documentDirectory + "MessageFolder/" + name + "/"
         const fileUri = folderUri + name + "---" + imageMsg.createdTime
-        // FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
+        FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
+
         // canMoveDown.current = true
         // setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
         // setLatestMsgObj(pre => {
@@ -1663,8 +1657,7 @@ async function takePhoto(setMessages, userName, name, socket, url, canMoveDown, 
             .then(response => {
 
                 canMoveDown.current = true
-                //console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
-                FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` }))
+                console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
                 setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, }] })
                 setLatestMsgObj(pre => {
                     return { ...pre, [name]: { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, } }

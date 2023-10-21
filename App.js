@@ -52,6 +52,9 @@ export default function App() {
 function AppStarter() {
 
 
+ 
+
+
   const initialRouter = useContextSelector(Context, (state) => (state.initialRouter))
   const setInitialRouter = useContextSelector(Context, (state) => (state.setInitialRouter))
   const userName = useContextSelector(Context, (state) => (state.userName))
@@ -100,7 +103,7 @@ function AppStarter() {
 
     AsyncStorage.getItem("notiToken").then((notiToken) => {
 
-      console.log(">>>>", notiToken)
+     // console.log(">>>>", notiToken)
 
       if ((typeof notiToken === "string") && notiToken.indexOf("[Error:") !== 0) {
         setNotiToken(notiToken)
@@ -417,11 +420,11 @@ function registerForPushNotificationsAsync() {
       if (existingStatus !== 'granted') {
         Notifications.requestPermissionsAsync().then(({ status }) => {
           finalStatus = status;
-          console.log(">>>>", finalStatus)
+          console.log(">>>>", finalStatus, "existingStatus not granted")
         })
       }
       if (finalStatus !== 'granted') {
-        console.log('Failed to get push token for push notification!');
+        console.log('Failed to get push token for push notification!',"finalStatus not granted");
         alert('Failed to get push token for push notification!');
         return;
       }
