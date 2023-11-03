@@ -25,6 +25,12 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 
 
+
+
+
+
+
+
 export default function App() {
 
   useEffect(() => {
@@ -52,7 +58,7 @@ export default function App() {
 function AppStarter() {
 
 
- 
+
 
 
   const initialRouter = useContextSelector(Context, (state) => (state.initialRouter))
@@ -103,7 +109,7 @@ function AppStarter() {
 
     AsyncStorage.getItem("notiToken").then((notiToken) => {
 
-     // console.log(">>>>", notiToken)
+      // console.log(">>>>", notiToken)
 
       if ((typeof notiToken === "string") && notiToken.indexOf("[Error:") !== 0) {
         setNotiToken(notiToken)
@@ -374,7 +380,7 @@ function assignListenning({ socket, userName, appState, serverAddress, token, se
 
   socket.on("writeRoomMessage", function (sender, msgArr) {
 
-   
+
 
 
     const folderUri = FileSystem.documentDirectory + "MessageFolder/" + "AllUser" + "/"
@@ -384,11 +390,11 @@ function assignListenning({ socket, userName, appState, serverAddress, token, se
       const fileUri = folderUri + "AllUser" + "---" + msg.createdTime
       FileSystem.writeAsStringAsync(fileUri, JSON.stringify(msg))
         .then(() => {
-  
+
           setLatestMsgObj(pre => {
             return { ...pre, "AllUser": msg }
           })
-       
+
         })
     })
 
@@ -424,7 +430,7 @@ function registerForPushNotificationsAsync() {
         })
       }
       if (finalStatus !== 'granted') {
-        console.log('Failed to get push token for push notification!',"finalStatus not granted");
+        console.log('Failed to get push token for push notification!', "finalStatus not granted");
         alert('Failed to get push token for push notification!');
         return;
       }

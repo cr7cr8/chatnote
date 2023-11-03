@@ -1464,13 +1464,13 @@ async function pickImage(setMessages, userName, name, socket, url, canMoveDown, 
         }
         const folderUri = FileSystem.documentDirectory + "MessageFolder/" + name + "/"
         const fileUri = folderUri + name + "---" + imageMsg.createdTime
-        FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
+        // FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
 
-        canMoveDown.current = true
-        setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
-        setLatestMsgObj(pre => {
-            return { ...pre, [name]: { ...imageMsg, isLocal: true } }
-        })
+        // canMoveDown.current = true
+        // setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
+        // setLatestMsgObj(pre => {
+        //     return { ...pre, [name]: { ...imageMsg, isLocal: true } }
+        // })
 
 
 
@@ -1493,6 +1493,17 @@ async function pickImage(setMessages, userName, name, socket, url, canMoveDown, 
 
         axios.post(`${url}/api/image/uploadimage`, formData, { headers: { 'content-type': 'multipart/form-data', "x-auth-token": token }, })
             .then(response => {
+
+                canMoveDown.current = true
+                //console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
+
+                FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` }))
+                setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, }] })
+                setLatestMsgObj(pre => {
+                    return { ...pre, [name]: { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, } }
+                })
+
+
                 return {
                     ...imageMsg,
                     ...response.data,
@@ -1501,6 +1512,8 @@ async function pickImage(setMessages, userName, name, socket, url, canMoveDown, 
             })
             .then(data => {
                 socket.emit("sendToAll", { sender: userName, toPerson: name, msgArr: [data] })
+
+                
                 //  latestChattingMsg.current = imageMsg
             })
             .catch(e => console.log(e))
@@ -1542,11 +1555,11 @@ async function takePhoto(setMessages, userName, name, socket, url, canMoveDown, 
         const fileUri = folderUri + name + "---" + imageMsg.createdTime
         FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true }))
 
-        canMoveDown.current = true
-        setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
-        setLatestMsgObj(pre => {
-            return { ...pre, [name]: { ...imageMsg, isLocal: true } }
-        })
+        // canMoveDown.current = true
+        // setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true }] })
+        // setLatestMsgObj(pre => {
+        //     return { ...pre, [name]: { ...imageMsg, isLocal: true } }
+        // })
 
 
 
@@ -1569,6 +1582,16 @@ async function takePhoto(setMessages, userName, name, socket, url, canMoveDown, 
 
         axios.post(`${url}/api/image/uploadimage`, formData, { headers: { 'content-type': 'multipart/form-data', "x-auth-token": token }, })
             .then(response => {
+
+
+                canMoveDown.current = true
+                //console.log({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` })
+                FileSystem.writeAsStringAsync(fileUri, JSON.stringify({ ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}` }))
+                setMessages(pre => { return [...pre, { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, }] })
+                setLatestMsgObj(pre => {
+                    return { ...pre, [name]: { ...imageMsg, isLocal: true, image: `${url}/api/image/download/${response.data.mongooseID}`, } }
+                })
+
                 return {
                     ...imageMsg,
                     ...response.data,

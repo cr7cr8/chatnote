@@ -33,6 +33,7 @@ const { View, Text, Image: ImageV, ScrollView: ScrollV, } = ReAnimated
 import * as FileSystem from 'expo-file-system';
 
 
+//const defaultUrl = "https://zuczqy.picp.io:5577"; //will not work, axios always check self signed certificate
 const defaultUrl = "http://zuczqy.picp.io:5566";
 //const defaultUrl = "http://192.168.0.100";
 //const defaultUrl = "https://noteschat.herokuapp.com";
